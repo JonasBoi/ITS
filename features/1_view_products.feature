@@ -1,4 +1,4 @@
-@view
+@view @test
 Feature: Viewing products from admin area
   Try to take different looks on how to display products available
 

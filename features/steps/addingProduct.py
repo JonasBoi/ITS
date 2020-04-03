@@ -81,41 +81,60 @@ def step_impl(context, name):
     elem.click()
 
 
-@then('Two products called "New product" are shown')
-def step_impl(context):
-    """
-    :type context: behave.runner.Context
-    """
-    raise NotImplementedError(u'STEP: Then Two products called "New product" are shown')
+@then('Two products called "{name}" are shown')
+def step_impl(context, name):
+    driver = context.response
+
+    elem1 = WebDriverWait(driver, 10).until(
+        ec.visibility_of_element_located((By.XPATH, "// tbody / tr / td[3]")))
+    elem2 = WebDriverWait(driver, 10).until(
+        ec.visibility_of_element_located((By.XPATH, "// tr[2] / td[3]")))
+
+    assert elem1.text == elem2.text == name
 
 
-@step('One of products called "New product" has "Disabled" status')
-def step_impl(context):
-    """
-    :type context: behave.runner.Context
-    """
-    raise NotImplementedError(u'STEP: But One of them has "Disabled" status')
+@step('One of the products called "{name}" has "{status}" status')
+def step_impl(context, name, status):
+    driver = context.response
+
+    elem = WebDriverWait(driver, 10).until(
+        ec.visibility_of_element_located((By.ID, "input-name")))
+    elem.clear()
+
+    viewProducts.step_search(context, name)
+
+    elem1 = WebDriverWait(driver, 10).until(
+        ec.visibility_of_element_located((By.XPATH, "// tbody / tr / td[7]")))
+    elem2 = WebDriverWait(driver, 10).until(
+        ec.visibility_of_element_located((By.XPATH, "//tr[2]/td[7]")))
+
+    assert elem1.text != elem2.text
+    assert elem1.text == status or elem2.text == status
 
 
 @given("Blank Add Product page is opened")
 def step_impl(context):
-    """
-    :type context: behave.runner.Context
-    """
-    raise NotImplementedError(u'STEP: Given Blank Add Product page is opened')
+    driver = context.response
+
+    viewProducts.open_products_from_homepage(driver)
+
+    elem = WebDriverWait(driver, 10).until(
+        ec.visibility_of_element_located((By.XPATH, "// div[ @ id = 'content'] / div / div / div / a")))
+    elem.click()
 
 
 @when("The blank product is saved")
 def step_impl(context):
-    """
-    :type context: behave.runner.Context
-    """
-    raise NotImplementedError(u'STEP: When The blank product is saved')
+    driver = context.response
+
+    elem = driver.find_element_by_xpath("// div[ @ id = 'content'] / div / div / div / button / i")
+    elem.click()
 
 
 @then("The operation is unsuccessful")
 def step_impl(context):
-    """
-    :type context: behave.runner.Context
-    """
-    raise NotImplementedError(u'STEP: Then The operation is unsuccessful')
+    driver = context.response
+    src = driver.page_source
+    found = re.search("Warning: Please check the form carefully for errors!", src)
+
+    assert found

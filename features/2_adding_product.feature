@@ -1,10 +1,10 @@
-@add
+@add @test
 Feature: Adding products to the list
 
   Background: We are logged into admin area
     Given Home page of the admin area is opened
 
-  @test
+
   Scenario: Create a new product
     Given The Products category is opened
     When A new product "New product" is created
@@ -15,7 +15,7 @@ Feature: Adding products to the list
     Given The product "New product" is in the Product List
     When "New product" is copied
     Then Two products called "New product" are shown
-    But One of products called "New product" has "Disabled" status
+    But One of the products called "New product" has "Disabled" status
 
 
   Scenario: Creating a product with no name
