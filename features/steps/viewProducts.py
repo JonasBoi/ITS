@@ -5,15 +5,22 @@ import re
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
+from selenium.common.exceptions import ElementClickInterceptedException
 
 
 def open_products_from_homepage(driver):
     btn = WebDriverWait(driver, 10).until(
         ec.visibility_of_element_located((By.XPATH, "//li[@id='catalog']/a")))
     btn.click()
+
     btn = WebDriverWait(driver, 10).until(
         ec.visibility_of_element_located((By.XPATH, "//a[contains(text(),'Products')]")))
-    btn.click()
+    try:
+        btn.click()
+    except ElementClickInterceptedException:
+        btn = WebDriverWait(driver, 10).until(
+            ec.visibility_of_element_located((By.XPATH, "//a[contains(text(),'Products')]")))
+        btn.click()
 
 
 @given("Home page of the admin area is opened")
@@ -58,8 +65,10 @@ def step_search(context, name):
 
     elem = WebDriverWait(driver, 10).until(
         ec.visibility_of_element_located((By.ID, "input-name")))
+    elem.clear()
     elem.send_keys(name)
-    elem = driver.find_element_by_id("button-filter")
+    elem = WebDriverWait(driver, 10).until(
+        ec.visibility_of_element_located((By.ID, "button-filter")))
     elem.click()
 
 

@@ -137,4 +137,7 @@ def step_impl(context):
     src = driver.page_source
     found = re.search("Warning: Please check the form carefully for errors!", src)
 
-    assert found
+    if not found:
+        assert not re.search("Success: You have modified products!", src)
+    else:
+        assert found
