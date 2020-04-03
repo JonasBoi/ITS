@@ -1,4 +1,4 @@
-# ITS projekt  
+# ITS project  
 **Name:** Jonáš Sasín  
 **Login:** xsasin05  
 
