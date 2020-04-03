@@ -1,5 +1,10 @@
+@add
 Feature: Adding products to the list
 
+  Background: We are logged into admin area
+    Given Home page of the admin area is opened
+
+  @test
   Scenario: Create a new product
     Given The Products category is opened
     When A new product "New product" is created
