@@ -1,5 +1,6 @@
 from behave import *
 
+
 @given('The product "New Product" exists')
 def step_impl(context):
     """
