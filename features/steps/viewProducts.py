@@ -73,7 +73,7 @@ def step_search(context, name):
 
 
 @then("No results are given")
-def step_impl(context):
+def step_no_res(context):
     driver = context.response
 
     src = driver.page_source
