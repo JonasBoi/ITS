@@ -1,6 +1,7 @@
 # ITS project  
-**Name:** Jonáš Sasín  
-**Login:** xsasin05  
+hodnocení:  
+ * první část 19/20
+ * druhá část 19/20
 
 Testing the correct behaviour of **product administration**.  
 
